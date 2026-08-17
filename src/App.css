@@ -1,3 +1,15 @@
+@theme inline {
+  --color-destructive-foreground: var(--destructive-foreground);
+}
+
+:root {
+  --destructive-foreground: var(--color-red-700);
+}
+
+.dark {
+  --destructive-foreground: var(--color-red-400);
+}
+
 .counter {
   font-size: 16px;
   padding: 5px 10px;
