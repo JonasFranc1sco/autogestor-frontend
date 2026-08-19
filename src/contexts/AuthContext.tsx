@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import {refresh} from "@/services/auth.service";
-import { setAccessToken as setToken } from "@/services/token.service"
+import { getAccessToken, setAccessToken as setStoredAccessToken, subscribeToTokenChange } from "@/services/token.service"
 
 interface AuthContextData {
     accessToken: string | null;
@@ -11,12 +11,17 @@ interface AuthContextData {
 const AuthContext = createContext<AuthContextData | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode}) {
-    const [accessToken, setAccessTokenState] = useState<string | null>(null);
+    const [accessToken, setAccessTokenState] = useState<string | null>(getAccessToken());
     const [isLoading, setIsLoading] = useState(true);
-    const setAccessToken = (token: string | null) => {
-        setAccessTokenState(token);
-        setToken(token);
-    };
+    function setAccessToken(token: string | null) {
+        setStoredAccessToken(token);
+    }
+
+    useEffect(() => {
+        return subscribeToTokenChange((token) => {
+            setAccessTokenState(token);
+        });
+    }, []);
 
     useEffect(() => {
         async function restoreSession() {
