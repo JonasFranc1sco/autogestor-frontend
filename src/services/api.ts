@@ -21,7 +21,7 @@ let refreshPromise: Promise<string> | null = null;
 async function refreshAccessToken(): Promise<string> {
     if (!refreshPromise) {
         refreshPromise = authApi
-        .post("api/auth/refresh/")
+        .post("/api/auth/refresh/")
         .then((response) => {
             const newAccessToken = response.data.access;
 

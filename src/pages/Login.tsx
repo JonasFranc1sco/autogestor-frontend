@@ -5,7 +5,6 @@ import type React from "react";
 import { login } from "@/services/auth.service";
 import axios from "axios";
 import { useAuth } from "@/contexts/AuthContext";
-import { api } from "@/services/api"
 
 export default function Login() {
     const { setAccessToken } = useAuth();
